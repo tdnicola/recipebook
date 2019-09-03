@@ -1,0 +1,22 @@
+{
+  "name": "recipebook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "consolidate": "*",
+    "dust": "*",
+    "dustjs-helpers": "*",
+    "dustjs-linkedin": "*",
+    "eslint-config-rallycoding": "^3.2.0",
+    "eslint-plugin-class-property": "^1.1.0",
+    "express": "*",
+    "pg": "*"
+  }
+}
