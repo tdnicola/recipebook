@@ -58,10 +58,20 @@ app.post('/add', ((req, res) => {
 app.delete('/delete/:id', ((req, res) => {
     pool.connect((err, client, done) => {
         if (err) throw err
-       client.query('delete from recipes where id = $1',
+       client.query('delete from recipe where id = $1',
        [req.params.id]);
        done();
        res.send(200)
+    });
+}))
+
+app.post('/edit', ((req, res) => {
+    pool.connect((err, client, done) => {
+        if (err) throw err
+       client.query('update recipe set name = $1, ingredients = $2, directions = $3 where id = $4',
+       [req.body.name, req.body.ingredients, req.body.directions, req.body.id,]);
+       done();
+       res.redirect('/')
     });
 }))
 //server
