@@ -31,7 +31,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function(req, res) {
-
     pool.connect((err, client, done) => {
         if (err) throw err
         client.query('SELECT * FROM recipe', (err, result) => {
@@ -42,9 +41,29 @@ app.get('/', function(req, res) {
           }
           res.render('index', {recipes: result.rows});
           done();
-        })
-      })
-})
+        });
+    });
+});
+
+app.post('/add', ((req, res) => {
+    pool.connect((err, client, done) => {
+        if (err) throw err
+       client.query('insert into recipe(name, ingredients, directions) values($1, $2, $3)',
+       [req.body.name, req.body.ingredients, req.body.directions]);
+       done();
+       res.redirect('/')
+    });
+}));
+
+app.delete('/delete/:id', ((req, res) => {
+    pool.connect((err, client, done) => {
+        if (err) throw err
+       client.query('delete from recipes where id = $1',
+       [req.params.id]);
+       done();
+       res.send(200)
+    });
+}))
 //server
 app.listen(3000, function () {
     console.log('server listening on port 3000');
