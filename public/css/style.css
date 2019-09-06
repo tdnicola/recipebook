@@ -1,6 +1,10 @@
 body {
     margin-top: 10px;
-    background: #f9f9f9;
+    background-image: url('../images/black-bean-close-up-cooked-1640774.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
     text-align: center;
 }
 

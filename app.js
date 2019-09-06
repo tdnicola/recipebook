@@ -1,22 +1,19 @@
-var express = require('express'),
+   var express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
     cons = require('consolidate'),
     dust = require('dustjs-helpers'),
-    { Pool, Client } = require('pg'),
+    { Pool } = require('pg'),
     app = express();
 
-    const { user, password, pghost, port, database } = require('./config.json');
+    const { connectionString } = require('./config.json');
 //db connect string
 // var connect = 'postgres://user:marine@localhost/recipebookdb';
 
 const pool = new Pool({
-    user,
-    password,
-    pghost,
-    port,
-    database,
-})
+    connectionString: connectionString,
+    ssl: true
+});
 
 // // assign dust engine to .dust files
 app.engine('dust', cons.dust);
@@ -68,13 +65,15 @@ app.delete('/delete/:id', ((req, res) => {
 app.post('/edit', ((req, res) => {
     pool.connect((err, client, done) => {
         if (err) throw err
-       client.query('update recipe set name = $1, ingredients = $2, directions = $3 where id = $4',
-       [req.body.name, req.body.ingredients, req.body.directions, req.body.id,]);
+        client.query('update recipe set name = $1, ingredients = $2, directions = $3 where id = $4',
+            [req.body.name, req.body.ingredients, req.body.directions, req.body.id,]);
+
        done();
        res.redirect('/')
     });
 }))
+
 //server
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log('server listening on port 3000');
 });
